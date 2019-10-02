@@ -6,9 +6,11 @@
 #include "FrontEnd.h"
 //#include <System.Math.hpp>
 #include <math.h>
+#include "BackEnd.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "cspin"
 #pragma resource "*.dfm"
 TForm1 *Form1;
 //---------------------------------------------------------------------------
@@ -35,8 +37,8 @@ const int LINES_COUNT=4;
   float halfXYWidth[2];
   halfXYWidth[0]=PaintBox->Height/2.0;
   halfXYWidth[1]=PaintBox->Width/2.0;
-  Memo1->Lines->Add(String(halfXYWidth[0]));
-  Memo1->Lines->Add(String(halfXYWidth[1]));
+  //Memo1->Lines->Add(String(halfXYWidth[0]));
+  //Memo1->Lines->Add(String(halfXYWidth[1]));
 
 
 
@@ -77,16 +79,16 @@ const int LINES_COUNT=4;
   }
 
 
-  for (int lineInd = 0; lineInd < LINES_COUNT; lineInd++) {
-  Memo1->Lines->Add(String(""));
-
-	float tempZ=(float)PaintBox->Width/(float)(distanceToEyes + tetrahedron3D[lineInd][2]);
-	Memo1->Lines->Add(String(tempZ));
-	for (int coordInd = 0; coordInd < 2; coordInd++) {
-	  tetrahedron2D[lineInd][coordInd]=(int)(tetrahedron3D[lineInd][coordInd]*tempZ+halfXYWidth[coordInd]);
-	  Memo1->Lines->Add(String(tetrahedron2D[lineInd][coordInd]));
-	}
-  }
+//  for (int lineInd = 0; lineInd < LINES_COUNT; lineInd++) {
+//  Memo1->Lines->Add(String(""));
+//
+//	float tempZ=(float)PaintBox->Width/(float)(distanceToEyes + tetrahedron3D[lineInd][2]);
+//	Memo1->Lines->Add(String(tempZ));
+//	for (int coordInd = 0; coordInd < 2; coordInd++) {
+//	  tetrahedron2D[lineInd][coordInd]=(int)(tetrahedron3D[lineInd][coordInd]*tempZ+halfXYWidth[coordInd]);
+//	  Memo1->Lines->Add(String(tetrahedron2D[lineInd][coordInd]));
+//	}
+//  }
 
 
   for (int i = 0; i < LINES_COUNT-1; i++) {
@@ -101,3 +103,25 @@ const int LINES_COUNT=4;
 
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm1::btByDefaultClick(TObject *Sender)
+{
+   InputBackEnd ibe;
+   ibe.operationType=INIT_TETRAHEDRON;
+
+   OutputBackEnd obe=BackEndMain(&ibe);
+
+  for (int i = 0; i < LINES_COUNT; i++) {
+	  Memo1->Lines->Add(String(obe.coords[i][0])+" "+String(obe.coords[i][1]));
+  }
+
+
+  for (int i = 0; i < LINES_COUNT-1; i++) {
+	  for (int j = 1; j < LINES_COUNT; j++) {
+		PaintBox->Canvas->MoveTo(obe.coords[i][0], obe.coords[i][1]);
+		PaintBox->Canvas->LineTo(obe.coords[j][0], obe.coords[j][1]);
+	  }
+  }
+}
+//---------------------------------------------------------------------------
+
