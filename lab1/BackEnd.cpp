@@ -18,9 +18,13 @@ OutputBackEnd BackEndMain(const InputBackEnd *pibe){
 	Form1->Memo1->Lines->Add("pibe->operationType "+ String(pibe->operationType));
 
 	switch (pibe->operationType) {
-	   INIT_TETRAHEDRON:{
+	   case INIT_TETRAHEDRON:{
 			Form1->Memo1->Lines->Add("pibe->INIT_TETRAHEDRON ");
 		   InitTetrahedron( tetrahedron3d);
+	   }
+
+	   case MOVE_TETRAHEDRON:{
+		   MoveTetrahedron(tetrahedron3d, pibe->move);
 	   }
 	}
 
@@ -58,6 +62,15 @@ Form1->Memo1->Lines->Add("InitTetrahedron ");
 }
 
 
+void MoveTetrahedron(float (&tetrahedron3d)[LINES_COUNT][D3], const float (&move3d)[D3]){
+  for (int lineInd = 0; lineInd < LINES_COUNT; lineInd++) {
+	for (int coordInd = 0; coordInd < D3; coordInd++) {
+	  tetrahedron3d[lineInd][coordInd]+=move3d[coordInd];
+    }
+  }
+}
+
+
 void ConvertTo2D(const float (&tetrahedron3d)[LINES_COUNT][D3], int (&tetrahedron2d)[LINES_COUNT][D2]){
   //float minWidth=borders[0]<borders[1]?(float)borders[0]:(float)borders[1];
 
@@ -72,6 +85,8 @@ void ConvertTo2D(const float (&tetrahedron3d)[LINES_COUNT][D3], int (&tetrahedro
 
 
   for (int lineInd = 0; lineInd < LINES_COUNT; lineInd++) {
+	Form1->Memo1->Lines->Add("t3d z"+ String(tetrahedron3d[lineInd][2]));
+
 	float tempZ=PICTURE_BOX_LEN/(DISTANCE_TO_EYES + tetrahedron3d[lineInd][2]);
 
 

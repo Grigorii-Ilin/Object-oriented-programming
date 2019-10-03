@@ -6,7 +6,7 @@
 #include "FrontEnd.h"
 //#include <System.Math.hpp>
 #include <math.h>
-#include "BackEnd.h"
+
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -115,11 +115,32 @@ void __fastcall TForm1::btByDefaultClick(TObject *Sender)
 	  Memo1->Lines->Add(String(obe.coords[i][0])+" "+String(obe.coords[i][1]));
   }
 
+   DrawTetrahedron(obe.coords);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::btMoveClick(TObject *Sender)
+{
+   InputBackEnd ibe;
+   ibe.operationType=MOVE_TETRAHEDRON;
+
+   ibe.move[0]= (float)seMoveX->Value;
+   ibe.move[1]= (float)seMoveY->Value;
+   ibe.move[2]= (float)seMoveZ->Value;
+
+   OutputBackEnd obe=BackEndMain(&ibe);
+
+   DrawTetrahedron(obe.coords);
+}
+
+
+void TForm1::DrawTetrahedron(const int (&coords)[LINES_COUNT][D2]){
+  PaintBox->Canvas->Refresh();
 
   for (int i = 0; i < LINES_COUNT-1; i++) {
 	  for (int j = 1; j < LINES_COUNT; j++) {
-		PaintBox->Canvas->MoveTo(obe.coords[i][0], obe.coords[i][1]);
-		PaintBox->Canvas->LineTo(obe.coords[j][0], obe.coords[j][1]);
+		PaintBox->Canvas->MoveTo(coords[i][0], coords[i][1]);
+		PaintBox->Canvas->LineTo(coords[j][0], coords[j][1]);
 	  }
   }
 }

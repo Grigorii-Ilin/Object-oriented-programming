@@ -9,6 +9,8 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include "cspin.h"
+
+#include "BackEnd.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -24,7 +26,10 @@ __published:	// IDE-managed Components
 	TMemo *Memo1;
 	void __fastcall btCreateClick(TObject *Sender);
 	void __fastcall btByDefaultClick(TObject *Sender);
+	void __fastcall btMoveClick(TObject *Sender);
 private:	// User declarations
+   void DrawTetrahedron(const int (&coords)[LINES_COUNT][D2]);
+
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };

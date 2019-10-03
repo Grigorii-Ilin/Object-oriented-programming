@@ -13,7 +13,8 @@ const int D2=2;
 enum OperationType{
 	INIT_TETRAHEDRON=0,
 	MOVE_TETRAHEDRON,
-	ROTATE_TETRAHEDRON
+	ROTATE_TETRAHEDRON,
+	SCALE_TETRAHEDRON
 };
 
 struct InputBackEnd {
@@ -41,8 +42,9 @@ struct OutputBackEnd{
 OutputBackEnd BackEndMain(const InputBackEnd *pibe);
 
 void InitTetrahedron(float (&tetrahedron3d)[LINES_COUNT][D3]);
-void MoveTetrahedron();
-void RotateTetrahedron();
+void MoveTetrahedron(float (&tetrahedron3d)[LINES_COUNT][D3], const float (&move3d)[D3]);
+void RotateTetrahedron(float (&tetrahedron3d)[LINES_COUNT][D3]);
+void ScaleTetrahedron(float (&tetrahedron3d)[LINES_COUNT][D3]);
 
 void ConvertTo2D( const float (&tetrahedron3d)[LINES_COUNT][D3], int (&tetrahedron2d)[LINES_COUNT][D2]);
 

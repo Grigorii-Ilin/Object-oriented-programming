@@ -51,6 +51,7 @@ object Form1: TForm1
     Height = 25
     Caption = #1044#1074#1080#1075#1072#1090#1100
     TabOrder = 3
+    OnClick = btMoveClick
   end
   object btRotate: TButton
     Left = 528
